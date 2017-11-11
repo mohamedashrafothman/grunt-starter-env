@@ -21,7 +21,7 @@ This is my project starting configuration setup which contains:
 npm install
 ```
 
-3. running the watch file
+3. to run Grunt and start watching files
 ```sh
 npm start
 ```
