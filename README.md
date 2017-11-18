@@ -11,6 +11,9 @@ This is my project starting configuration setup which contains:
   - [Concat](https://github.com/gruntjs/grunt-contrib-concat) Concatenates files in the order they are required.
   - [Watch](https://github.com/gruntjs/grunt-contrib-watch) Watch all files changes after save.
   - [PUG](https://github.com/gruntjs/grunt-contrib-pug) Compile Pug file into HTML5 files.
+  - [CONNECT](https://github.com/gruntjs/grunt-contrib-connect) connect to live server for livereload files
+  - [NEWER](https://github.com/tschaub/grunt-newer) only watch changed files without compile all files
+
 
 ### Installation
 

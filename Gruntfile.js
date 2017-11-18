@@ -103,14 +103,14 @@ module.exports = function (grunt) {
 			},
 			uglify: {
 				files: 'public/js/**/*.js',
-				tasks: ['eslint', 'concat', 'uglify'],
+				tasks: ['newer:eslint:all', 'concat', 'uglify'],
 				options: {
 					livereload: true
 				}
 			},
 			pug: {
 				files: ['public/views/**/*.pug'],
-				tasks: ['pug'],
+				tasks: ['newer:pug:compile:files'],
 				options: {
 					livereload: true
 				}
@@ -133,6 +133,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-autoprefixer');
 	grunt.loadNpmTasks('grunt-contrib-pug');
 	grunt.loadNpmTasks('grunt-eslint');
+	grunt.loadNpmTasks('grunt-newer');
 	grunt.loadNpmTasks('grunt-sass');
 
 
