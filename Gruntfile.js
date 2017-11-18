@@ -1,6 +1,6 @@
 module.exports = function (grunt) {
 
-	// Project configuration.
+	// Tasks configuration.
 	grunt.initConfig({
 		concat: {
 			js: {
@@ -27,33 +27,29 @@ module.exports = function (grunt) {
 				 * - Repeat for each pug file your have.
 				 */
 				files: {
-					'index.html': ['public/views/index.pug'], 
-					'about.html': ['public/views/about.pug'], 
-					'404.html': ['public/views/404.pug'], 
+					'index.html': ['public/views/index.pug'],
+					'about.html': ['public/views/about.pug'],
+					'404.html': ['public/views/404.pug'],
 				}
 			},
 		},
 		sass: {
 			build: {
-				files: [
-					{
-						src: ['public/sass/style.scss'],
-						dest: 'public/css/style.css',
-					},
-				],
+				files: [{
+					src: ['public/sass/style.scss'],
+					dest: 'public/css/style.css',
+				}, ],
 			},
 		},
 		autoprefixer: {
 			options: {
-				browsers: ['last 2 versions', 'ie 8', 'ie 9'] 
+				browsers: ['last 2 versions', 'ie 8', 'ie 9']
 			},
 			my_target: {
-				files: [
-					{
-						src: 'public/css/style.css',
-						dest: 'public/css/style.css'
-					}
-				] 
+				files: [{
+					src: 'public/css/style.css',
+					dest: 'public/css/style.css'
+				}]
 			}
 		},
 		cssmin: {
@@ -68,12 +64,10 @@ module.exports = function (grunt) {
 		},
 		uglify: {
 			my_target: {
-				files: [
-					{
-						src: ['public/dist/script.js'],
-						dest: 'public/dist/min/script.min.js',
-					},
-				]
+				files: [{
+					src: ['public/dist/script.js'],
+					dest: 'public/dist/min/script.min.js',
+				}]
 			},
 		},
 		eslint: {
@@ -89,29 +83,49 @@ module.exports = function (grunt) {
 				}]
 			}
 		},
+		connect: {
+			server: {
+				options: {
+					hostname: 'localhost',
+					port: 9000,
+					base: './',
+					livereload: true
+				}
+			}
+		},
 		watch: {
 			sass: {
 				files: ['public/sass/**/*.scss'],
 				tasks: ['sass', 'autoprefixer', 'concat', 'cssmin'],
+				options: {
+					livereload: true
+				}
 			},
 			uglify: {
 				files: 'public/js/**/*.js',
 				tasks: ['eslint', 'concat', 'uglify'],
+				options: {
+					livereload: true
+				}
 			},
 			pug: {
 				files: ['public/views/**/*.pug'],
 				tasks: ['pug'],
+				options: {
+					livereload: true
+				}
 			},
 			imagemin: {
 				files: ['public/img/*.{png,jpeg,jpg,gif}'],
-				tasks: ['imagemin'],
+				tasks: ['imagemin']
 			}
 		},
 	});
 
-	
+
 	// Load the plugins that provides the tasks.
 	grunt.loadNpmTasks('grunt-contrib-imagemin');
+	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -123,5 +137,5 @@ module.exports = function (grunt) {
 
 
 	// Default task(s).
-	grunt.registerTask('default', ['watch']);
+	grunt.registerTask('default', ['connect', 'watch']);
 };
