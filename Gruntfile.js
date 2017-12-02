@@ -1,15 +1,16 @@
 module.exports = function (grunt) {
+	require('load-grunt-tasks')(grunt);
 
 	// Tasks configuration.
 	grunt.initConfig({
 		concat: {
 			js: {
-				src: ['public/js/libs/*.js', 'public/js/*.js'],
-				dest: 'public/dist/script.js',
+				src: ['src/scripts/libs/*.js', 'src/scripts/*.js'],
+				dest: 'build/scripts/script.js',
 			},
 			css: {
-				src: ['public/css/libs/*.css', 'public/css/*.css'],
-				dest: 'public/dist/style.css',
+				src: ['src/styles/libs/*.css', 'src/styles/*.css'],
+				dest: 'build/styles/style.css',
 			},
 		},
 		pug: {
@@ -27,17 +28,17 @@ module.exports = function (grunt) {
 				 * - Repeat for each pug file your have.
 				 */
 				files: {
-					'index.html': ['public/views/index.pug'],
-					'about.html': ['public/views/about.pug'],
-					'404.html': ['public/views/404.pug'],
+					'index.html': ['src/views/index.pug'],
+					'about.html': ['src/views/about.pug'],
+					'404.html': ['src/views/404.pug'],
 				}
 			},
 		},
 		sass: {
 			build: {
 				files: [{
-					src: ['public/sass/style.scss'],
-					dest: 'public/css/style.css',
+					src: ['src/sass/style.scss'],
+					dest: 'src/styles/style.css',
 				}, ],
 			},
 		},
@@ -47,17 +48,17 @@ module.exports = function (grunt) {
 			},
 			my_target: {
 				files: [{
-					src: 'public/css/style.css',
-					dest: 'public/css/style.css'
+					src: 'src/styles/style.css',
+					dest: 'src/styles/style.css'
 				}]
 			}
 		},
 		cssmin: {
 			build: {
 				files: {
-					'public/dist/min/style.min.css': [
-						'public/dist/style.css',
-						'public/dist/!*.min.css',
+					'build/styles/style.min.css': [
+						'build/styles/style.css',
+						'build/styles/!*.min.css',
 					],
 				},
 			},
@@ -65,21 +66,21 @@ module.exports = function (grunt) {
 		uglify: {
 			my_target: {
 				files: [{
-					src: ['public/dist/script.js'],
-					dest: 'public/dist/min/script.min.js',
+					src: ['build/scripts/script.js'],
+					dest: 'build/scripts/script.min.js',
 				}]
 			},
 		},
 		eslint: {
-			all: ['public/js/*.js', '!node_modules/**/*.js']
+			all: ['src/scripts/*.js', '!node_modules/**/*.js']
 		},
 		imagemin: {
 			dynamic: {
 				files: [{
 					expand: true,
-					cwd: 'public/img/',
+					cwd: 'src/images/',
 					src: ['**/*.{png,jpg,jpeg,gif}'],
-					dest: 'public/img/'
+					dest: 'build/images/'
 				}]
 			}
 		},
@@ -93,30 +94,41 @@ module.exports = function (grunt) {
 				}
 			}
 		},
+		'babel': {
+			options: {
+				sourceMap: true,
+				presets: ['env']
+			},
+			dist: {
+				files: {
+					'build/scripts/script.js': 'src/scripts/script.js'
+				}
+			}
+		},
 		watch: {
 			sass: {
-				files: ['public/sass/**/*.scss'],
+				files: ['src/sass/**/*.scss'],
 				tasks: ['sass', 'autoprefixer', 'concat', 'cssmin'],
 				options: {
 					livereload: true
 				}
 			},
 			uglify: {
-				files: 'public/js/**/*.js',
-				tasks: ['newer:eslint:all', 'concat', 'uglify'],
+				files: 'src/scripts/**/*.js',
+				tasks: ['eslint', 'concat','babel', 'uglify'], // 'babel', 'concat'
 				options: {
 					livereload: true
 				}
 			},
 			pug: {
-				files: ['public/views/**/*.pug'],
+				files: ['src/views/**/*.pug'],
 				tasks: ['newer:pug:compile:files'],
 				options: {
 					livereload: true
 				}
 			},
 			imagemin: {
-				files: ['public/img/*.{png,jpeg,jpg,gif}'],
+				files: ['src/images/*.{png,jpeg,jpg,gif}'],
 				tasks: ['imagemin']
 			}
 		},
@@ -133,6 +145,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-autoprefixer');
 	grunt.loadNpmTasks('grunt-contrib-pug');
 	grunt.loadNpmTasks('grunt-eslint');
+	grunt.loadNpmTasks('grunt-babel');
 	grunt.loadNpmTasks('grunt-newer');
 	grunt.loadNpmTasks('grunt-sass');
 

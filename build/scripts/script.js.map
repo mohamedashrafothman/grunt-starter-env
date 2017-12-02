@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/scripts/script.js"],"names":["$","document","ready"],"mappings":";;AAAAA,EAAEC,QAAF,EAAYC,KAAZ,CAAkB,YAAY,CAI7B,CAJD","file":"script.js","sourcesContent":["$(document).ready(function () {\r\n\r\n    \r\n\r\n});\r\n"]}
