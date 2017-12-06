@@ -3,7 +3,7 @@ module.exports = function (grunt) {
 
 	// Tasks configuration.
 	grunt.initConfig({
-		concat: {
+		'concat': {
 			js: {
 				src: ['src/scripts/libs/*.js', 'src/scripts/*.js'],
 				dest: 'build/scripts/script.js',
@@ -13,7 +13,7 @@ module.exports = function (grunt) {
 				dest: 'build/styles/style.css',
 			},
 		},
-		pug: {
+		'pug': {
 			compile: {
 				options: {
 					client: false,
@@ -34,7 +34,7 @@ module.exports = function (grunt) {
 				}
 			},
 		},
-		sass: {
+		'sass': {
 			build: {
 				files: [{
 					src: ['src/sass/style.scss'],
@@ -42,7 +42,7 @@ module.exports = function (grunt) {
 				}, ],
 			},
 		},
-		autoprefixer: {
+		'autoprefixer': {
 			options: {
 				browsers: ['last 2 versions', 'ie 8', 'ie 9']
 			},
@@ -53,7 +53,7 @@ module.exports = function (grunt) {
 				}]
 			}
 		},
-		cssmin: {
+		'cssmin': {
 			build: {
 				files: {
 					'build/styles/style.min.css': [
@@ -63,7 +63,7 @@ module.exports = function (grunt) {
 				},
 			},
 		},
-		uglify: {
+		'uglify': {
 			my_target: {
 				files: [{
 					src: ['build/scripts/script.js'],
@@ -71,10 +71,10 @@ module.exports = function (grunt) {
 				}]
 			},
 		},
-		eslint: {
-			all: ['src/scripts/*.js', '!node_modules/**/*.js']
+		'eslint': {
+			all: ['src/scripts/**/*.js', '!node_modules/**/*.js']
 		},
-		imagemin: {
+		'imagemin': {
 			dynamic: {
 				files: [{
 					expand: true,
@@ -84,7 +84,7 @@ module.exports = function (grunt) {
 				}]
 			}
 		},
-		connect: {
+		'connect': {
 			server: {
 				options: {
 					hostname: 'localhost',
@@ -105,17 +105,17 @@ module.exports = function (grunt) {
 				}
 			}
 		},
-		watch: {
+		'watch': {
 			sass: {
 				files: ['src/sass/**/*.scss'],
-				tasks: ['sass', 'autoprefixer', 'concat', 'cssmin'],
+				tasks: ['sass', 'autoprefixer', 'concat:css', 'cssmin'],
 				options: {
 					livereload: true
 				}
 			},
-			uglify: {
-				files: 'src/scripts/**/*.js',
-				tasks: ['eslint', 'concat','babel', 'uglify'], // 'babel', 'concat'
+			eslint: {
+				files: 'src/scripts/*.js',
+				tasks: ['concat:js', 'eslint', 'babel', 'uglify'],
 				options: {
 					livereload: true
 				}

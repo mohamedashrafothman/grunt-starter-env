@@ -3,14 +3,17 @@ module.exports = {
         "browser": true,
         "es6": true,
         "node": true,
-        "jquery": true
+        "jquery": true,
+        "commonjs": true,
+        "mongo": true,
+        "mocha": true
     },
     "extends": "eslint:recommended",
     "parserOptions": {
         "sourceType": "module"
     },
     "rules": {
-        "no-console":0,
+        "no-console": 0,
         "indent": [
             "error",
             "tab"
