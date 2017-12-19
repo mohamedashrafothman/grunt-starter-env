@@ -72,7 +72,7 @@ module.exports = function (grunt) {
 			},
 		},
 		'eslint': {
-			all: ['src/scripts/**/*.js', '!node_modules/**/*.js']
+			all: ['src/scripts/**/*.es6', '!node_modules/**/*.es6']
 		},
 		'imagemin': {
 			dynamic: {
@@ -94,14 +94,17 @@ module.exports = function (grunt) {
 				}
 			}
 		},
-		'babel': {
-			options: {
-				sourceMap: true,
-				presets: ['env']
-			},
+		'browserify': {
 			dist: {
 				files: {
-					'build/scripts/script.js': 'src/scripts/script.js'
+					// destination for transpiled js : source js
+					'build/scripts/script.js': 'src/scripts/**/*.es6'
+				},
+				options: {
+					transform: [['babelify', { presets: 'es2015' }]],
+					browserifyOptions: {
+						debug: true
+					}
 				}
 			}
 		},
@@ -114,8 +117,8 @@ module.exports = function (grunt) {
 				}
 			},
 			eslint: {
-				files: 'src/scripts/*.js',
-				tasks: ['concat:js', 'eslint', 'babel', 'uglify'],
+				files: 'src/scripts/*.es6',
+				tasks: ['eslint', 'browserify:dist', 'uglify'],
 				options: {
 					livereload: true
 				}
@@ -144,8 +147,8 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-autoprefixer');
 	grunt.loadNpmTasks('grunt-contrib-pug');
+	grunt.loadNpmTasks('grunt-browserify');
 	grunt.loadNpmTasks('grunt-eslint');
-	grunt.loadNpmTasks('grunt-babel');
 	grunt.loadNpmTasks('grunt-newer');
 	grunt.loadNpmTasks('grunt-sass');
 
